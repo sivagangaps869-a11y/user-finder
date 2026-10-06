@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/256/25/25231.png">
+    <!-- tailwind -->
+      <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-blue-100">
+     <!-- Q2.  GitHub User Finder 
+Create an app where the user enters a GitHub username into an input box. When they click "Search", fetch data from the GitHub REST API using HTML, CSS/Bootstrap (or Tailwind), and JavaScript.  
+● Requirements: 
+○ Show user profile picture (avatar), name, bio, followers, and public repositories count. 
+○ If the username doesn’t exist, display a "User not found" message. 
+○ Use Ajax Api Technique.
+ ● API: https://api.github.com/users/{username} -->
+
+    <section>
+        <div>
+            <div class="flex flex-col items-center justify-center min-h-screen">
+                <div class="mb-5">
+                    <img width="200px" src="https://cdn-icons-png.flaticon.com/256/25/25231.png" alt="">
+                </div>
+                <div>
+                    <input id="text" type="text" class="bg-white rounded w-65 p-2" placeholder="Username">
+                    <button type="button" class=" bg-black text-white rounded p-2" onclick="search()">Search</button>
+                </div>
+                <div id="result">
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+</body>
+
+<script>
+    let response= new XMLHttpRequest
+    response.open('get','https://api.github.com/users')
+    response.send()
+    response.onreadystatechange=()=>{
+        if(response.readyState==4){
+            if(response.status==200){
+                let gitdata=JSON.parse(response.responseText)
+                console.log(gitdata);
+                
+                
+            }
+        }
+    }
+
+    function search(){
+        let input=text.value
+        if(input==""){
+            alert("fill the field")
+        }else if(!input in gitdata){
+            alert("User not found")
+        }
+        
+        else{
+            displayData(gitdata)
+        }
+        text.value=""
+    }
+
+    function displayData(gitdata){
+        // let input=document.getElementById("text").value
+        for(let git of gitdata){
+            
+            HTMLdata=`<div>
+        <div><img width="100px" src="${git.avatar_url}" alt=""></div>
+        <div>
+            <p>Name: ${git.login}</p>
+            <p>Followers:${git.followers_url}</p>
+            <p>Repositories${git.repos_url}</p>
+        </div>
+    </div>`;
+        }
+        result.innerHTML=HTMLdata
+ 
+    }
+
+    
+
+</script>
+</html>
